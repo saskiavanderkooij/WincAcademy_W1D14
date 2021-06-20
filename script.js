@@ -8,8 +8,12 @@ const getComputerNummer = function (minGetal, maxGetal) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const getGebruikersNummer = function () {
-    const inputnummer = prompt("Voer een nummer in van 0 tot 25 om te beginnen met raden...");
+const getGebruikersNummer = function (minGetal, maxGetal) {
+    let inputnummer = parseInt(prompt("Voer een nummer in van " + minGetal + " tot " + maxGetal + " om te beginnen met raden..."));
+
+    while (isNaN(inputnummer)) {
+        inputnummer = parseInt(prompt("Je invoer was geen nummer. Voer alleen nummers in! Probeer het nogmaals"));
+    }
     return inputnummer;
 };
 
@@ -22,9 +26,11 @@ const opnieuw = function () {
     }
 };
 
-const pogingen = function () {
+const speel = function (minGetal, maxGetal) {
+    let computerNummer = getComputerNummer(minGetal, maxGetal);  
+
     for (index = 1; index <= 5; index++) {
-        var gebruikersNummer = getGebruikersNummer();
+        let gebruikersNummer = getGebruikersNummer(minGetal, maxGetal);
         if ((5 - index) >= 2 && gebruikersNummer != computerNummer) {
             alert("Dat is niet goed. Je hebt nog " + (5 - index) + " pogingen over.");
         } else if ((5 - index) == 1 && gebruikersNummer != computerNummer) {
@@ -40,13 +46,26 @@ const pogingen = function () {
     }
  };
 
-const gebruikersNaam = prompt("Welkom! Wat is je naam?");
+let gebruikersNaam;
+while (gebruikersNaam === undefined || gebruikersNaam === null || gebruikersNaam.length === 0) {
+    gebruikersNaam = prompt("Welkom! Wat is je naam?");
+}
+
 alert("Hallo " + gebruikersNaam + " laten we het spel: Raad het nummer spelen");
 alert("Bepaal zelf de range van getallen.");
-const minGetal = prompt("Kies het laagste getal:");
-const maxGetal = prompt("Kies nu het hoogste getal:");
-var computerNummer = getComputerNummer(minGetal, maxGetal);
-pogingen(computerNummer);
+
+let minGetal = parseInt(prompt("Kies het laagste getal:"));
+while (isNaN(minGetal)) {
+    minGetal = parseInt(prompt("Je invoer was geen nummer. Voer alleen nummers in! Probeer het nogmaals"));
+}
+
+let maxGetal = parseInt(prompt("Kies nu het hoogste getal:"));
+while (isNaN(maxGetal)) {
+    maxGetal = parseInt(prompt("Je invoer was geen nummer. Voer alleen nummers in! Probeer het nogmaals"));
+}
+
+speel(minGetal, maxGetal);
+
 
 
 
